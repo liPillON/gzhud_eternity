@@ -1,0 +1,12 @@
+AddOptionMenu OptionsMenu       { SubMenu "$gzeLBL_MNUTITLE", gzeMNU_MAIN }
+AddOptionMenu OptionsMenuSimple { SubMenu "$gzeLBL_MNUTITLE", gzeMNU_MAIN }
+
+
+OptionMenu gzeMNU_MAIN
+{
+	Title "$gzeLBL_MNUTITLE"
+	StaticText "$gzeLBL_MNUVERSION", Black
+	StaticText ""
+	Option "$gzeLBL_OPTSTATS", gzeHUD_LevelInfo, YesNo
+}
+

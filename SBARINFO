@@ -1,0 +1,160 @@
+// reference: https://zdoom.org/wiki/SBARINFO
+// stock definition: $PROGDIR/gzdoom.pk3/sbarinfo/doom.txt
+
+// sets the status bar to the specified game
+// valid games are Doom, Heretic, Hexen, Strife, and None.
+base DOOM;
+
+// setting this to 0 (ZERO) will tell GZDoom to use a fullscreen viewport
+// so the normal statusbar will be drawn without using GRNROCK flats as borders
+height 0;
+
+// if true, continues drawing the border where the status bar is normally placed
+// using this will remove the HOM. If false, the border is not drawn behind the status bar
+CompleteBorder true;
+
+// monospaces all fonts to the specified character of their font
+// alignment changes the position of off size characters within their spacing
+MonospaceFonts true, "0", center;
+
+// keep "resolution 320, 200;" to let the hud be affected by GZDoom's scaling just like the stock StatusBar is
+// when in game, to avoid any pixel-scaling distortion, I would then suggest to either:
+//  - execute "hud_AspectScale true; hud_scale 6; vid_ScaleToHeight 1440"
+//  - execute "hud_AspectScale true; hud_scale 3; vid_ScaleToHeight 720"
+resolution 320, 200;
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// standard StatusBar, used in the automap screen
+// we define it as EMPTY, so only stats and mapname will be displayed
+StatusBar AutoMap {}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// standard StatusBar and InventoryBar, used when ScreenBlocks<=10
+// we leave both commented, so GZDoom will provide the stock resources
+//StatusBar Inventory {}
+//StatusBar Normal {}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// FullScreen InventoryBar
+// provided in case a mod makes use of it
+StatusBar InventoryFullscreen, FullscreenOffsets
+{
+	ifCvarInt gzeHUD_LevelInfo, 1, equal {
+		DrawInventoryBar DOOM, AlwaysShowCounter, NoArtiBox, 1, gzeFNT_123S, -107, -30, -80, -8, gzeCLR_GLD;
+	} else {
+		DrawInventoryBar DOOM, AlwaysShowCounter, NoArtiBox, 1, gzeFNT_123S, -40, -30, -13, -8, gzeCLR_GLD;
+	}
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// FullScreen HUD, used when ScreenBlocks=11
+// this is where the magic happens ;)
+StatusBar Fullscreen, FullscreenOffsets
+{
+	//InventoryItem
+	ifCvarInt gzeHUD_LevelInfo, 1, equal {
+		DrawSelectedInventory AlwaysShowCounter, gzeFNT_123S, -107, -30, -80, -8, gzeCLR_GLD;
+	} else {
+		DrawSelectedInventory AlwaysShowCounter, gzeFNT_123S, -40, -30, -13, -8, gzeCLR_GLD;
+	}
+
+	//health
+	DrawImage "gzeHLTH", 3, -24;
+	ifHealth 101 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_BLU, health, 36, -24;
+	} else
+	ifHealth 51 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_GRN, health, 36, -24;
+	} else
+	ifHealth 26 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_GLD, health, 36, -24;
+	} else
+	ifHealth 1 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_RED, health, 36, -24;
+	} else {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_RED, health, 36, -24;
+	}
+
+	//armor
+	DrawImage "gzeARMR", 3, -12;
+	InInventory BasicArmor, 101 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_BLU, armor, 36, -12;
+	} else
+	InInventory BasicArmor, 51 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_GRN, armor, 36, -12;
+	} else
+	InInventory BasicArmor, 26 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_GLD, armor, 36, -12;
+	} else
+	InInventory BasicArmor, 1 {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_RED, armor, 36, -12;
+	} else {
+		DrawNumber 3, gzeFNT_123L, gzeCLR_RED, armor, 36, -12;
+	}
+
+	//dividing line
+	DrawImage "gzeVLNE", 38, -23;
+
+	//arms
+	DrawString gzeFNT_TEXT, untranslated, "ARMS", 66, -24;
+	DrawSwitchableImage WeaponSlot 1, "gzeSML49", "gzeSMG49", 68, -24;
+	DrawSwitchableImage WeaponSlot 2, "gzeSML50", "gzeSMG50", 73, -24;
+	DrawSwitchableImage WeaponSlot 3, "gzeSML51", "gzeSMG51", 78, -24;
+	DrawSwitchableImage WeaponSlot 4, "gzeSML52", "gzeSMG52", 83, -24;
+	DrawSwitchableImage WeaponSlot 5, "gzeSML53", "gzeSMG53", 88, -24;
+	DrawSwitchableImage WeaponSlot 6, "gzeSML54", "gzeSMG54", 93, -24;
+	DrawSwitchableImage WeaponSlot 7, "gzeSML55", "gzeSMG55", 98, -24;
+
+	//ammo
+	DrawString gzeFNT_TEXT, untranslated, "AMMO", 66, -16;
+	UsesSecondaryAmmo {
+		//clip-current-maximum
+		DrawNumber 3, gzeFNT_123M, gzeCLR_GLD, Ammo1, FillZeros, 89, -16;
+		DrawImage "gzeSLSH", 90, -16;
+		DrawNumber 3, gzeFNT_123M, gzeCLR_GLD, Ammo2, FillZeros, 116, -16;
+		DrawImage "gzeSLSH", 117, -16;
+		DrawNumber 3, gzeFNT_123M, gzeCLR_GLD, Ammo2Capacity, FillZeros, 143, -16;
+	} else UsesAmmo {
+		//ammunition: current-maximum
+		DrawNumber 3, gzeFNT_123M, gzeCLR_GLD, Ammo1, FillZeros, 89, -16;
+		DrawImage "gzeSLSH", 90, -16;
+		DrawNumber 3, gzeFNT_123M, gzeCLR_GLD, Ammo1Capacity, FillZeros, 116, -16;
+	} else {
+		//melee
+		inInventory PowerStrength {
+			DrawString gzeFNT_TEXT, gzeCLR_RED, "BSK", 86, -16;
+		} else {
+			DrawImage "gzeNFNT", 68, -16;
+		}
+	}
+
+	//keys
+	DrawString gzeFNT_TEXT, untranslated, "KEYS", 66, -8;
+	DrawKeyBar 6, horizontal, 8, 68, -9;
+
+	ifCvarInt gzeHUD_LevelInfo, 1, equal {
+		//kills
+		DrawNumber 4, gzeFNT_123S, untranslated, kills, -57, -24;
+		DrawImage "gzeSLSH", -56, -24;
+		DrawNumber 4, gzeFNT_123S, untranslated, monsters, -35, -24;
+		DrawString gzeFNT_TEXT, gzeCLR_RED, "KILLS", -3, -24;
+		//items
+		DrawNumber 4, gzeFNT_123S, untranslated, items, -57, -16;
+		DrawImage "gzeSLSH", -56, -16;
+		DrawNumber 4, gzeFNT_123S, untranslated, totalItems, -35, -16;
+		DrawString gzeFNT_TEXT, gzeCLR_BLU, "ITEMS", -3, -16;
+		//secrets
+		DrawNumber 4, gzeFNT_123S, untranslated, secrets, -57, -8;
+		DrawImage "gzeSLSH", -56, -8;
+		DrawNumber 4, gzeFNT_123S, untranslated, totalSecrets, -35, -8;
+		DrawString gzeFNT_TEXT, gzeCLR_GLD, "SCRTS", -3, -8;
+	}
+}

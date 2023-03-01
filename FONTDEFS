@@ -1,0 +1,23 @@
+//eternity: Letters
+gzeFNT_TEXT
+{
+	TEMPLATE gzeABC%02d
+}
+
+//eternity: Digits (Large)
+gzeFNT_123L 
+{
+	TEMPLATE gzeLRG%02d
+}
+
+//eternity: Digits (Medium)
+gzeFNT_123M 
+{
+	TEMPLATE gzeMED%02d
+}
+
+//eternity: Digits (Small)
+gzeFNT_123S 
+{
+	TEMPLATE gzeSML%02d
+}
