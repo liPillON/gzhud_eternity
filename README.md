@@ -7,7 +7,7 @@ Graphic assets taken from [here](https://github.com/team-eternity/eternity/tree/
 ![README](https://raw.githubusercontent.com/liPillON/gzhud_eternity/main/README.png)
 
 
-Features:
+## Features:
 - Palette-independent PNG graphics
 - UsesAmmo/UsesSecondaryAmmo support
 - InventoryBar/SelectedInventory support
@@ -15,13 +15,13 @@ Features:
 - hidden StatusBar in automap
 
 
-Limitations:
+## Limitations:
 - the Slot for the current weapon is not higlighted
 - the Ammo indicator coloring is not quantity-based
 - the Armor indicator coloring is not class-based
 
 
-Downloads:
+## Downloads:
 - [this](https://github.com/liPillON/gzhud_eternity/releases/latest) is the latest release.
 - [this](https://github.com/liPillON/gzhud_eternity/archive/refs/heads/main.zip) is the current repository snapshot.
 
