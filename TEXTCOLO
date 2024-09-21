@@ -36,7 +36,7 @@ Flat:
 }
 
 // taken from Tango's Supercharge (color: "Blue")
-NHCLRBLU
+gzeCLR_BLU
 {
 	#000D23  #005CFF
 Console:
